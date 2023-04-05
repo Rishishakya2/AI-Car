@@ -1,4 +1,5 @@
 #include <AFMotor.h>
+//A Program by Rishi Shakya 
 #include <Servo.h>
 int trigPin = 13;
 int echoPin =  2;
