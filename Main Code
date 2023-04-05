@@ -1,0 +1,85 @@
+#include <AFMotor.h>
+#include <Servo.h>
+int trigPin = 13;
+int echoPin =  2;
+Servo Servo1;
+int right,left,mid;
+long md,rd,ld;
+AF_DCMotor Motor1(1);
+AF_DCMotor Motor2(2);
+AF_DCMotor Motor3(3);
+AF_DCMotor Motor4(4);
+void setup() {
+  Servo1.attach(9);
+  pinMode(trigPin, OUTPUT); 
+pinMode(echoPin, INPUT); 
+ Motor1.setSpeed(255);
+ Motor2.setSpeed(255);
+ Motor3.setSpeed(255);
+ Motor4.setSpeed(255);
+Motor1.run(RELEASE);
+Motor2.run(RELEASE);
+Motor3.run(RELEASE);
+Motor4.run(RELEASE);
+Servo1.write(90);
+
+}
+
+void loop() {
+ 
+  digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+md = pulseIn(echoPin, HIGH);
+Motor1.run(FORWARD);
+Motor2.run(FORWARD);
+Motor3.run(FORWARD);
+Motor4.run(FORWARD);
+mid = md * 0.034 / 2;
+ if(mid<=12){
+Servo1.write(150);
+delay(10);
+ digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+rd = pulseIn(echoPin, HIGH);
+delay(10);
+Servo1.write(30);
+ digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+ld = pulseIn(echoPin, HIGH);
+delay(10);
+right=rd * 0.034 / 2;
+left=ld * 0.034 / 2;
+  Motor1.setSpeed(180);
+ Motor2.setSpeed(180);
+ Motor3.setSpeed(180);
+ Motor4.setSpeed(180);
+if(right<left){
+ 
+Motor1.run(FORWARD);
+Motor2.run(BACKWARD);
+Motor3.run(FORWARD);
+Motor4.run(BACKWARD);
+delay(1000);
+}
+if(right>left){
+Motor2.run(FORWARD);
+Motor1.run(BACKWARD);
+Motor4.run(FORWARD);
+Motor3.run(BACKWARD);
+delay(1000);
+}
+ }
+  Motor1.setSpeed(255);
+ Motor2.setSpeed(255);
+ Motor3.setSpeed(255);
+ Motor4.setSpeed(255);
+ }
